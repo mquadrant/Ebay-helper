@@ -24,8 +24,10 @@ browser.contextMenus.onClicked.addListener(function (info, tab) {
                 sendMessage(tab, "clear-feed", ({ url }) => {
                     createNewTab(url, (newtab) => {
                         sendMessage(newtab, "delete-follows", (response) => {
-                            removeTab(newtab.id);
-                            reloadTab(tab.id)
+                            setTimeout(() => {
+                                removeTab(newtab.id);
+                                reloadTab(tab.id);
+                            }, 1000)
                         })
                     })
                 })
@@ -34,7 +36,7 @@ browser.contextMenus.onClicked.addListener(function (info, tab) {
             case "ebay-clear-saved-item": {
                 sendMessage(tab, "clear-items", ({ status }) => {
                     if (status) {
-                        reloadTab(tab.id)
+                        setTimeout(() => reloadTab(tab.id), 2000)
                     }
                 })
                 break;
