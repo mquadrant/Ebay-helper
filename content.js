@@ -1,6 +1,6 @@
 // content-script.js
 
-function handleMessage(request, sender, sendResponse) {
+async function handleMessage(request, sender, sendResponse) {
   switch (request.type) {
     case 'clear-feed': {
       sendResponse({ url: clearSavedSearches() })
@@ -11,8 +11,8 @@ function handleMessage(request, sender, sendResponse) {
       break;
     }
     case 'clear-items': {
-      sendResponse({ status: clearItems() })
-      break;
+      const result = await clearItems()
+      return Promise.resolve({ status: result });
     }
     default: { }
   }
@@ -32,8 +32,20 @@ function deleteFollows() {
   return true
 }
 
-function clearItems() {
+async function clearItems() {
   const clearView = document.querySelectorAll('.rmv.right.btn') || []
-  clearView.forEach((item) => item.click())
+  for (let i = 0; i < clearView.length; i++) {
+    clearView[i].click()
+    await wait(50);
+  }
+  // https://www.ebay.com/_feedhome/feeds/block/203074516993?_=1597215294874
   return true
+}
+
+function wait(ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(ms)
+    }, ms)
+  })
 }

@@ -24,19 +24,17 @@ browser.contextMenus.onClicked.addListener(function (info, tab) {
                 sendMessage(tab, "clear-feed", ({ url }) => {
                     createNewTab(url, (newtab) => {
                         sendMessage(newtab, "delete-follows", (response) => {
-                            setTimeout(() => {
-                                removeTab(newtab.id);
-                                reloadTab(tab.id);
-                            }, 1000)
+                            removeTab(newtab.id);
+                            reloadTab(tab.id);
                         })
                     })
                 })
                 break;
             }
             case "ebay-clear-saved-item": {
-                sendMessage(tab, "clear-items", ({ status }) => {
-                    if (status) {
-                        setTimeout(() => reloadTab(tab.id), 2000)
+                sendMessage(tab, "clear-items", (res) => {
+                    if (res.status) {
+                        reloadTab(tab.id)
                     }
                 })
                 break;
