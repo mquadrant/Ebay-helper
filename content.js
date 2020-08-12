@@ -3,12 +3,12 @@
 async function handleMessage(request, sender, sendResponse) {
   switch (request.type) {
     case 'clear-feed': {
-      sendResponse({ url: clearSavedSearches() })
-      break;
+      const result = clearSavedSearches()
+      return Promise.resolve({ url: result });
     }
     case 'delete-follows': {
-      sendResponse({ status: deleteFollows() })
-      break;
+      const result = await deleteFollows()
+      return Promise.resolve({ status: result });
     }
     case 'clear-items': {
       const result = await clearItems()
@@ -26,9 +26,12 @@ function clearSavedSearches() {
   return savedPage
 }
 
-function deleteFollows() {
+async function deleteFollows() {
   const selectFollow = document.querySelectorAll('.fol-followed')
-  selectFollow.forEach((follow) => follow.click())
+  for (let i = 0; i < selectFollow.length; i++) {
+    selectFollow[i].click()
+    await wait(5);
+  }
   return true
 }
 
@@ -36,7 +39,7 @@ async function clearItems() {
   const clearView = document.querySelectorAll('.rmv.right.btn') || []
   for (let i = 0; i < clearView.length; i++) {
     clearView[i].click()
-    await wait(50);
+    await wait(20);
   }
   // https://www.ebay.com/_feedhome/feeds/block/203074516993?_=1597215294874
   return true
