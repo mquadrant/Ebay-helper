@@ -39,9 +39,8 @@ async function clearItems() {
   const clearView = document.querySelectorAll('.rmv.right.btn') || []
   for (let i = 0; i < clearView.length; i++) {
     clearView[i].click()
-    await wait(20);
+    await wait(40);
   }
-  // https://www.ebay.com/_feedhome/feeds/block/203074516993?_=1597215294874
   return true
 }
 

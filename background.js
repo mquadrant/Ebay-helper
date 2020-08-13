@@ -6,6 +6,11 @@ browser.contextMenus.create({
     contexts: ["all"]
 });
 browser.contextMenus.create({
+    id: "ebay-clear-item-unreload",
+    title: "Clear Items Without Reload",
+    contexts: ["all"]
+});
+browser.contextMenus.create({
     id: "separator-2",
     type: "separator",
     contexts: ["all"]
@@ -37,6 +42,10 @@ browser.contextMenus.onClicked.addListener(function (info, tab) {
                         reloadTab(tab.id)
                     }
                 })
+                break;
+            }
+            case "ebay-clear-item-unreload": {
+                sendMessage(tab, "clear-items", (res) => { })
                 break;
             }
             default: { }
