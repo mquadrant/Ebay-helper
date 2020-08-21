@@ -1,8 +1,16 @@
-// function init() {
-// create a context menus
 browser.contextMenus.create({
     id: "ebay-clear-saved-item",
     title: "Clear Saved Search Items",
+    contexts: ["all"]
+});
+browser.contextMenus.create({
+    id: "ebay-clear-item-4",
+    title: "Clear upto 4 Items",
+    contexts: ["all"]
+});
+browser.contextMenus.create({
+    id: "ebay-clear-item-8",
+    title: "Clear upto 8 Items",
     contexts: ["all"]
 });
 browser.contextMenus.create({
@@ -12,6 +20,16 @@ browser.contextMenus.create({
 });
 browser.contextMenus.create({
     id: "separator-2",
+    type: "separator",
+    contexts: ["all"]
+});
+browser.contextMenus.create({
+    id: "ebay-super-clear-item",
+    title: "Super Clear Items",
+    contexts: ["all"]
+});
+browser.contextMenus.create({
+    id: "separator-3",
     type: "separator",
     contexts: ["all"]
 });
@@ -46,6 +64,30 @@ browser.contextMenus.onClicked.addListener(function (info, tab) {
             }
             case "ebay-clear-item-unreload": {
                 sendMessage(tab, "clear-items", (res) => { })
+                break;
+            }
+            case "ebay-clear-item-4": {
+                sendMessage(tab, "clear-items-4", (res) => {
+                    if (res.status) {
+                        reloadTab(tab.id)
+                    }
+                })
+                break;
+            }
+            case "ebay-clear-item-8": {
+                sendMessage(tab, "clear-items-8", (res) => {
+                    if (res.status) {
+                        reloadTab(tab.id)
+                    }
+                })
+                break;
+            }
+            case "ebay-super-clear-item": {
+                sendMessage(tab, "super-clear-items", (res) => {
+                    if (res.status) {
+                        setTimeout(() => reloadTab(tab.id), 3000)
+                    }
+                })
                 break;
             }
             default: { }
